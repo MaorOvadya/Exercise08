@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
 import InputTodo from '@/components/InputTodo'
@@ -7,7 +7,17 @@ import TodoList from '@/components/TodoList'
 import { todos as todosData } from '@/data/todoData'
 
 function TodoApp() {
-    const [todos, setTodos] = useState(todosData)
+    const [todos, setTodos] = useState([])
+
+    useEffect(() => {
+        if(!localStorage.getItem("todos")){
+            const temp = JSON.stringify(todosData)
+            localStorage.setItem("todos", temp)
+        }else{
+            const temp = JSON.parse(localStorage.getItem("todos"))
+            setTodos(temp)
+        }
+    }, [])
 
     const handleChange = (id) => {
         setTodos((prevState) => {
@@ -18,7 +28,6 @@ function TodoApp() {
                         completed: !todo.completed
                     }
                 }
-
                 return todo
             })
         })
@@ -36,9 +45,6 @@ function TodoApp() {
             title,
             completed: false
         }
-
-        console.log(newTodo)
-
         setTodos([newTodo, ...todos])
     }
 
