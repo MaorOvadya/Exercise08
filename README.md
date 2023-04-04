@@ -10,11 +10,18 @@
     │    ├── components
     |    |      ├── Header.jsx
     |    |      ├── InputTodo.jsx
-    │    │      └── TodoApp.jsx
-    │    │      └── TodoItem.jsx
+    |    |      ├── Modal.jsx
+    │    │      ├── TodoApp.jsx
+    │    │      ├── TodoItem.jsx
     │    │      └── TodoList.jsx
     │    ├── data
     |    |      └── todoData.js
+    │    ├── hooks
+    |    |      └── useClickOutside.jsx
+    │    ├── style
+    |    |      ├── Header.module.scss
+    |    |      ├── Modal.module.scss
+    │    │      └── TodoItem.module.scss
     |    ├── App.jsx
     │    ├── main.jsx
     ...
