@@ -1,31 +1,29 @@
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 
 import styles from '@/style/TodoItem.module.scss'
+import Modal from '@/components/Modal'
 
 function TodoItem({ todoItem, deleteTodo }) {
-
     const [todo, setTodo] = useState(todoItem)
     const [editing, setEditing] = useState(false)
-
-    const inputRef = useRef(null)
 
     let viewMode = {}
     let editMode = {}
 
-    if(editing) {
-        viewMode.display = "none"
-    }else{
-        editMode.display = "none"
+    if (editing) {
+        viewMode.display = 'none'
+    } else {
+        editMode.display = 'none'
     }
 
     const handleEditing = () => {
         setEditing(true)
     }
 
-    const handleUpdateSubmit = () => {
+    const handleUpdateSubmit = (value) => {
         setTodo({
             ...todo,
-            title: inputRef.current.value
+            title: value,
         })
         setEditing(false)
     }
@@ -33,37 +31,30 @@ function TodoItem({ todoItem, deleteTodo }) {
     const handleChange = () => {
         setTodo({
             ...todo,
-            completed: !todo.completed
+            completed: !todo.completed,
         })
     }
 
     return (
         <li>
-            <div style={viewMode} className={styles.item}>
-            <input
-                type="checkbox"
-                checked={todo.completed}
-                onChange={handleChange}
-            />
-            <span style={ todo.completed ? { textDecoration: "line-through"}: null}>
-                {todo.title}
-            </span>
-            <button onClick={handleEditing}>Edit</button>
-            <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+            <div className={styles.item}>
+                <input
+                    type="checkbox"
+                    checked={todo.completed}
+                    onChange={handleChange}
+                />
+                <span
+                    style={todo.completed ? { textDecoration: 'line-through' } : null}
+                >
+                    {todo.title}
+                </span>
+                <button onClick={handleEditing}>Edit</button>
+                <button onClick={() => deleteTodo(todo.id)}>Delete</button>
             </div>
 
-            <input
-                ref={inputRef}
-                style={editMode}
-                type="text"
-                defaultValue={todo.title}
-            />
-            <button
-                style={editMode}
-                onClick={handleUpdateSubmit}
-            >
-                Update
-            </button>
+            {editing && (
+                <Modal defaultVal={todo.title} handleUpdate={handleUpdateSubmit} />
+            )}
         </li>
     )
 }
